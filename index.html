@@ -48,45 +48,96 @@
       display: inline-block;
       margin: 5px 0;
     }
+    .form-section {
+      margin-top: 20px;
+    }
+    .form-section label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    .form-section input[type="number"],
+    .form-section select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    .form-section button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .form-section button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
   <div class="receipt">
     <h1>Mechanic Receipt</h1>
-    <h2>Customer: John Doe</h2>
-    <p><strong>Date:</strong> May 8, 2025</p>
-    <p><strong>Job:</strong> Brake pad replacement and inspection</p>
+    <div class="form-section">
+      <label for="service">Choose a service:</label>
+      <select id="service">
+        <option value="brake">Brake Pad Replacement - $90</option>
+        <option value="oil">Oil Change - $40</option>
+        <option value="tires">Tire Rotation - $50</option>
+      </select>
 
-    <table>
-      <tr><th>Item</th><th>Rate</th><th>Quantity</th><th>Total</th></tr>
-      <tr><td>Diagnostic Fee</td><td>$50</td><td>1</td><td>$50</td></tr>
-      <tr><td>Labor</td><td>$60/hour</td><td>3 hours</td><td>$180</td></tr>
-      <tr><td>Parts</td><td>Brake Pads</td><td>1 set</td><td>$90</td></tr>
-      <tr class="total"><td colspan="3">Total Cost</td><td>$320</td></tr>
-    </table>
+      <label for="hours">Enter labor hours:</label>
+      <input type="number" id="hours" min="1" max="5" value="3" />
 
-    <div class="math-section">
-      <h3>Math Behind the Receipt</h3>
-      <p><strong>Equation:</strong></p>
-      <code>Total Cost = 60x + 140</code>
-      <p>Where x = number of labor hours</p>
-
-      <p><strong>Inequality:</strong></p>
-      <code>60x + 140 ≤ 350</code>
-      <p>Substitute x = 3:</p>
-      <code>60(3) + 140 = 320 ≤ 350 ✔️</code>
-      <p>This means the job stays under budget!</p>
+      <button onclick="generateReceipt()">Generate Receipt</button>
     </div>
+
+    <div id="output" style="margin-top: 20px;"></div>
+
+    <div class="math-section" id="math"></div>
   </div>
 
   <script>
-    // JavaScript isn't needed for static content, but here's an example:
-    const hours = 3;
-    const laborRate = 60;
-    const parts = 90;
-    const diagnostic = 50;
-    const total = laborRate * hours + parts + diagnostic;
-    console.log("Calculated Total:", total);
+    function generateReceipt() {
+      const service = document.getElementById("service").value;
+      const hours = parseInt(document.getElementById("hours").value);
+
+      const services = {
+        brake: { name: "Brake Pad Replacement", cost: 90 },
+        oil: { name: "Oil Change", cost: 40 },
+        tires: { name: "Tire Rotation", cost: 50 }
+      };
+
+      const selectedService = services[service];
+      const laborRate = 60;
+      const diagnostic = 50;
+      const partsCost = selectedService.cost;
+      const total = laborRate * hours + partsCost + diagnostic;
+
+      document.getElementById("output").innerHTML = `
+        <h2>Receipt</h2>
+        <table>
+          <tr><th>Item</th><th>Rate</th><th>Quantity</th><th>Total</th></tr>
+          <tr><td>Diagnostic Fee</td><td>$50</td><td>1</td><td>$50</td></tr>
+          <tr><td>Labor</td><td>$60/hour</td><td>${hours} hours</td><td>$${laborRate * hours}</td></tr>
+          <tr><td>${selectedService.name}</td><td>-</td><td>1</td><td>$${partsCost}</td></tr>
+          <tr class="total"><td colspan="3">Total Cost</td><td>$${total}</td></tr>
+        </table>
+      `;
+
+      const mathHTML = `
+        <h3>Math Behind the Receipt</h3>
+        <p><strong>Equation:</strong></p>
+        <code>Total Cost = 60x + ${diagnostic + partsCost}</code>
+        <p>Where x = number of labor hours</p>
+
+        <p><strong>Inequality:</strong></p>
+        <code>60x + ${diagnostic + partsCost} ≤ 350</code>
+        <p>Substitute x = ${hours}:</p>
+        <code>60(${hours}) + ${diagnostic + partsCost} = ${total} ${total <= 350 ? "≤" : ">"} 350 ${total <= 350 ? "✔️" : "❌"}</code>
+      `;
+
+      document.getElementById("math").innerHTML = mathHTML;
+    }
   </script>
 </body>
 </html>
