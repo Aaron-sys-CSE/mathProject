@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mechanic Receipt Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+      color: #333;
+    }
+    .receipt {
+      background: white;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    .total {
+      font-weight: bold;
+    }
+    .math-section {
+      background: #e7f3ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    code {
+      background: #ddd;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt">
+    <h1>Mechanic Receipt</h1>
+    <h2>Customer: John Doe</h2>
+    <p><strong>Date:</strong> May 8, 2025</p>
+    <p><strong>Job:</strong> Brake pad replacement and inspection</p>
+
+    <table>
+      <tr><th>Item</th><th>Rate</th><th>Quantity</th><th>Total</th></tr>
+      <tr><td>Diagnostic Fee</td><td>$50</td><td>1</td><td>$50</td></tr>
+      <tr><td>Labor</td><td>$60/hour</td><td>3 hours</td><td>$180</td></tr>
+      <tr><td>Parts</td><td>Brake Pads</td><td>1 set</td><td>$90</td></tr>
+      <tr class="total"><td colspan="3">Total Cost</td><td>$320</td></tr>
+    </table>
+
+    <div class="math-section">
+      <h3>Math Behind the Receipt</h3>
+      <p><strong>Equation:</strong></p>
+      <code>Total Cost = 60x + 140</code>
+      <p>Where x = number of labor hours</p>
+
+      <p><strong>Inequality:</strong></p>
+      <code>60x + 140 ≤ 350</code>
+      <p>Substitute x = 3:</p>
+      <code>60(3) + 140 = 320 ≤ 350 ✔️</code>
+      <p>This means the job stays under budget!</p>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript isn't needed for static content, but here's an example:
+    const hours = 3;
+    const laborRate = 60;
+    const parts = 90;
+    const diagnostic = 50;
+    const total = laborRate * hours + parts + diagnostic;
+    console.log("Calculated Total:", total);
+  </script>
+</body>
+</html>
