@@ -32,10 +32,15 @@
       color: var(--text-color);
       transition: background 0.3s, color 0.3s;
     }
-    .receipt {
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .receipt, .booking-section, .about-section {
       background: var(--box-bg);
-      max-width: 700px;
-      margin: auto;
+      flex: 1;
+      min-width: 300px;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
@@ -71,9 +76,6 @@
       display: inline-block;
       margin: 5px 0;
     }
-    .form-section {
-      margin-top: 20px;
-    }
     .form-section label {
       display: block;
       margin: 10px 0 5px;
@@ -104,13 +106,18 @@
       text-align: right;
       margin-bottom: 10px;
     }
-    .icons {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
+    .service-img {
+      display: block;
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
     }
-    .icons img {
-      height: 50px;
+    .booking-section {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
   </style>
 </head>
@@ -118,26 +125,67 @@
   <div class="toggle-theme">
     <button onclick="toggleTheme()">Toggle Dark/Light Mode</button>
   </div>
-  <div class="receipt">
-    <h1>Mechanic Receipt</h1>
-    <div class="form-section">
-      <label for="service">Choose a service:</label>
-      <select id="service">
-        <option value="brake">🔧 Brake Pad Replacement - $90</option>
-        <option value="oil">🛢 Oil Change - $40</option>
-        <option value="tires">🛞 Tire Rotation - $50</option>
-        <option value="battery">🔋 Battery Replacement - $120</option>
-        <option value="alignment">📏 Wheel Alignment - $75</option>
-      </select>
+  <div class="container">
+    <div class="receipt">
+      <h1>Mechanic Receipt</h1>
+      <div class="form-section">
+        <label for="service">Choose a service:</label>
+        <select id="service">
+          <option value="brake">🔧 Brake Pad Replacement - $90</option>
+          <option value="oil">🛢 Oil Change - $40</option>
+          <option value="tires">🛞 Tire Rotation - $50</option>
+          <option value="battery">🔋 Battery Replacement - $120</option>
+          <option value="alignment">📏 Wheel Alignment - $75</option>
+        </select>
 
-      <label for="hours">Enter labor hours:</label>
-      <input type="number" id="hours" min="1" max="5" value="3" />
+        <label for="hours">Enter labor hours:</label>
+        <input type="number" id="hours" min="1" max="5" value="3" />
 
-      <button onclick="generateReceipt()">Generate Receipt</button>
+        <button onclick="generateReceipt()">Generate Receipt</button>
+      </div>
+
+      <div id="output" style="margin-top: 20px;"></div>
+      <div class="math-section" id="math"></div>
     </div>
 
-    <div id="output" style="margin-top: 20px;"></div>
-    <div class="math-section" id="math"></div>
+    <div class="booking-section">
+      <div>
+        <h2>Book a Brake Pad Service</h2>
+        <img src="https://via.placeholder.com/300x200?text=Brake+Pad+Service" class="service-img" alt="Brake Pad">
+        <p>Certified mechanics replace your brake pads to ensure your safety.</p>
+        <button>Book Now</button>
+      </div>
+      <div>
+        <h2>Book an Oil Change</h2>
+        <img src="https://via.placeholder.com/300x200?text=Oil+Change" class="service-img" alt="Oil Change">
+        <p>Quick and affordable oil change using top-grade motor oils.</p>
+        <button>Book Now</button>
+      </div>
+      <div>
+        <h2>Book Tire Rotation</h2>
+        <img src="https://via.placeholder.com/300x200?text=Tire+Rotation" class="service-img" alt="Tire Rotation">
+        <p>Extend the life of your tires with expert rotation services.</p>
+        <button>Book Now</button>
+      </div>
+      <div>
+        <h2>Book Battery Replacement</h2>
+        <img src="https://via.placeholder.com/300x200?text=Battery+Replacement" class="service-img" alt="Battery Replacement">
+        <p>Reliable car battery replacement with top-brand batteries.</p>
+        <button>Book Now</button>
+      </div>
+      <div>
+        <h2>Book Wheel Alignment</h2>
+        <img src="https://via.placeholder.com/300x200?text=Wheel+Alignment" class="service-img" alt="Wheel Alignment">
+        <p>Improve your vehicle's handling with precision alignment.</p>
+        <button>Book Now</button>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>About Our Garage</h2>
+      <p>We are a trusted local mechanic shop with over 20 years of experience. We pride ourselves on honest pricing and professional service.</p>
+      <img src="https://via.placeholder.com/300x200?text=Our+Garage" class="service-img" alt="Garage">
+    </div>
   </div>
 
   <script>
@@ -162,6 +210,7 @@
       const diagnostic = 50;
       const partsCost = selectedService.cost;
       const total = laborRate * hours + partsCost + diagnostic;
+      const budget = 1000;
 
       document.getElementById("output").innerHTML = `
         <h2>Receipt</h2>
@@ -172,6 +221,7 @@
           <tr><td>${selectedService.name}</td><td>-</td><td>1</td><td>$${partsCost}</td></tr>
           <tr class="total"><td colspan="3">Total Cost</td><td>$${total}</td></tr>
         </table>
+        ${total > budget ? '<p style="color:red; font-weight:bold">Warning: Over Budget!</p>' : ''}
       `;
 
       const mathHTML = `
@@ -181,9 +231,9 @@
         <p>Where x = number of labor hours</p>
 
         <p><strong>Inequality:</strong></p>
-        <code>60x + ${diagnostic + partsCost} ≤ 350</code>
+        <code>60x + ${diagnostic + partsCost} ≤ ${budget}</code>
         <p>Substitute x = ${hours}:</p>
-        <code>60(${hours}) + ${diagnostic + partsCost} = ${total} ${total <= 350 ? "≤" : ">"} 350 ${total <= 350 ? "✔️" : "❌"}</code>
+        <code>60(${hours}) + ${diagnostic + partsCost} = ${total} ${total <= budget ? "≤" : ">"} ${budget} ${total <= budget ? "✔️" : "❌"}</code>
       `;
 
       document.getElementById("math").innerHTML = mathHTML;
