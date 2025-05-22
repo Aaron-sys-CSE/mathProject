@@ -110,7 +110,7 @@
       display: block;
       width: 100%;
       max-height: 200px;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 10px;
       margin-bottom: 15px;
     }
@@ -118,6 +118,12 @@
       display: flex;
       flex-direction: column;
       gap: 30px;
+    }
+    .about-section p.note {
+      font-size: 0.9em;
+      color: #aaa;
+      text-align: center;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -129,6 +135,9 @@
     <div class="receipt">
       <h1>Mechanic Receipt</h1>
       <div class="form-section">
+        <label for="budget">Your Budget ($):</label>
+        <input type="number" id="budget" min="50" value="1000" />
+
         <label for="service">Choose a service:</label>
         <select id="service">
           <option value="brake">🔧 Brake Pad Replacement - $90</option>
@@ -151,40 +160,40 @@
     <div class="booking-section">
       <div>
         <h2>Book a Brake Pad Service</h2>
-        <img src="https://via.placeholder.com/300x200?text=Brake+Pad+Service" class="service-img" alt="Brake Pad">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Disc_brake_pad.jpg/640px-Disc_brake_pad.jpg" class="service-img" alt="Brake Pad">
         <p>Certified mechanics replace your brake pads to ensure your safety.</p>
-        <button onclick="window.location.href='booking.html?service=brake'">Book Now</button>
+        <button onclick="alert('Thank you for booking Brake Pad Service!')">Book Now</button>
       </div>
       <div>
         <h2>Book an Oil Change</h2>
-        <img src="https://via.placeholder.com/300x200?text=Oil+Change" class="service-img" alt="Oil Change">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Motor_Oil_Change.jpg/640px-Motor_Oil_Change.jpg" class="service-img" alt="Oil Change">
         <p>Quick and affordable oil change using top-grade motor oils.</p>
-        <button onclick="window.location.href='booking.html?service=oil'">Book Now</button>
+        <button onclick="alert('Thank you for booking Oil Change!')">Book Now</button>
       </div>
       <div>
         <h2>Book Tire Rotation</h2>
-        <img src="https://via.placeholder.com/300x200?text=Tire+Rotation" class="service-img" alt="Tire Rotation">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Tire_rotation_example.jpg/640px-Tire_rotation_example.jpg" class="service-img" alt="Tire Rotation">
         <p>Extend the life of your tires with expert rotation services.</p>
-        <button onclick="window.location.href='booking.html?service=tires'">Book Now</button>
+        <button onclick="alert('Thank you for booking Tire Rotation!')">Book Now</button>
       </div>
       <div>
         <h2>Book Battery Replacement</h2>
-        <img src="https://via.placeholder.com/300x200?text=Battery+Replacement" class="service-img" alt="Battery Replacement">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Car_Battery_%28top%29.jpg/640px-Car_Battery_%28top%29.jpg" class="service-img" alt="Battery Replacement">
         <p>Reliable car battery replacement with top-brand batteries.</p>
-        <button onclick="window.location.href='booking.html?service=battery'">Book Now</button>
+        <button onclick="alert('Thank you for booking Battery Replacement!')">Book Now</button>
       </div>
       <div>
         <h2>Book Wheel Alignment</h2>
-        <img src="https://via.placeholder.com/300x200?text=Wheel+Alignment" class="service-img" alt="Wheel Alignment">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Wheel_alignment.jpg/640px-Wheel_alignment.jpg" class="service-img" alt="Wheel Alignment">
         <p>Improve your vehicle's handling with precision alignment.</p>
-        <button onclick="window.location.href='booking.html?service=alignment'">Book Now</button>
+        <button onclick="alert('Thank you for booking Wheel Alignment!')">Book Now</button>
       </div>
     </div>
 
     <div class="about-section">
-      <h2>About Our Garage</h2>
-      <p>We are a trusted local mechanic shop with over 20 years of experience. We pride ourselves on honest pricing and professional service.</p>
-      <img src="https://via.placeholder.com/300x200?text=Our+Garage" class="service-img" alt="Garage">
+      <h2>About Our Project</h2>
+      <p>This website is a school math project created to show how equations and inequalities apply to real-world situations like car repairs. It is not a real business.</p>
+      <p class="note">Images and services shown here are for educational purposes only.</p>
     </div>
   </div>
 
@@ -196,6 +205,7 @@
     function generateReceipt() {
       const service = document.getElementById("service").value;
       const hours = parseInt(document.getElementById("hours").value);
+      const budget = parseInt(document.getElementById("budget").value);
 
       const services = {
         brake: { name: "Brake Pad Replacement", cost: 90 },
@@ -210,7 +220,6 @@
       const diagnostic = 50;
       const partsCost = selectedService.cost;
       const total = laborRate * hours + partsCost + diagnostic;
-      const budget = 1000;
 
       document.getElementById("output").innerHTML = `
         <h2>Receipt</h2>
