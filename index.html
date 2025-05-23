@@ -37,10 +37,18 @@
       flex-wrap: wrap;
       gap: 20px;
     }
-    .receipt, .booking-section, .about-section {
+    .receipt, .booking-section {
       background: var(--box-bg);
       flex: 1;
       min-width: 300px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .about-section {
+      background: var(--box-bg);
+      width: 100%;
+      margin-top: 30px;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
@@ -120,7 +128,7 @@
 </head>
 <body>
   <div class="toggle-theme">
-    <button onclick="toggleTheme()">Toggle Dark/Light Mode</button>
+    <button onclick="toggleTheme()">Toggle Theme</button>
   </div>
   <div class="container">
     <div class="receipt">
@@ -131,6 +139,8 @@
 
         <label for="hours">Enter labor hours:</label>
         <input type="number" id="hours" min="1" max="5" value="3" />
+
+        <input type="hidden" id="service" value="brake" />
 
         <button onclick="generateReceipt()">Generate Receipt</button>
       </div>
@@ -166,12 +176,12 @@
         <button onclick="bookService('alignment')">Book Now</button>
       </div>
     </div>
+  </div>
 
-    <div class="about-section">
-      <h2>About Our Project</h2>
-      <p>This website is a school math project created to show how equations and inequalities apply to real-world situations like car repairs. It is not a real business.</p>
-      <p class="note">Images and services shown here are for educational purposes only.</p>
-    </div>
+  <div class="about-section">
+    <h2>About Our Project</h2>
+    <p>This website is a school math project created to show how equations and inequalities apply to real-world situations like car repairs. It is not a real business.</p>
+    <p class="note">Images and services shown here are for educational purposes only.</p>
   </div>
 
   <script>
