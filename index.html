@@ -37,27 +37,13 @@
       flex-wrap: wrap;
       gap: 20px;
     }
-    .receipt {
+    .receipt, .booking-section, .about-section {
       background: var(--box-bg);
       flex: 1;
       min-width: 300px;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      align-self: flex-start;
-    }
-    .booking-section {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      flex: 1;
-    }
-    .booking-box {
-      background: var(--box-bg);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      margin-bottom: 20px;
     }
     h1, h2 {
       text-align: center;
@@ -127,13 +113,10 @@
       border-radius: 10px;
       margin-bottom: 15px;
     }
-    .about-section {
-      background: var(--box-bg);
-      margin-top: 30px;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      width: 100%;
+    .booking-section {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
     .about-section p.note {
       font-size: 0.9em;
@@ -142,6 +125,7 @@
       margin-top: 10px;
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="toggle-theme">
@@ -165,35 +149,35 @@
     </div>
 
     <div class="booking-section">
-      <div class="booking-box">
-        <h2>Brake Pad Service</h2>
+      <div>
+        <h2>Book a Brake Pad Service</h2>
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Disc_brake_pad.jpg/640px-Disc_brake_pad.jpg" class="service-img" alt="Brake Pad">
-        <p>Certified mechanics replace your brake pads to ensure your safety.</p>
-        <button onclick="selectService('brake')">Book Now</button>
+        <p><i class="fas fa-tools"></i> Certified mechanics replace your brake pads to ensure your safety.</p>
+        <button onclick="bookService('brake')">Book Now</button>
       </div>
-      <div class="booking-box">
-        <h2>Oil Change</h2>
+      <div>
+        <h2>Book an Oil Change</h2>
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Motor_Oil_Change.jpg/640px-Motor_Oil_Change.jpg" class="service-img" alt="Oil Change">
-        <p>Quick and affordable oil change using top-grade motor oils.</p>
-        <button onclick="selectService('oil')">Book Now</button>
+        <p><i class="fas fa-oil-can"></i> Quick and affordable oil change using top-grade motor oils.</p>
+        <button onclick="bookService('oil')">Book Now</button>
       </div>
-      <div class="booking-box">
-        <h2>Tire Rotation</h2>
+      <div>
+        <h2>Book Tire Rotation</h2>
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Tire_rotation_example.jpg/640px-Tire_rotation_example.jpg" class="service-img" alt="Tire Rotation">
-        <p>Extend the life of your tires with expert rotation services.</p>
-        <button onclick="selectService('tires')">Book Now</button>
+        <p><i class="fas fa-car"></i> Extend the life of your tires with expert rotation services.</p>
+        <button onclick="bookService('tires')">Book Now</button>
       </div>
-      <div class="booking-box">
-        <h2>Battery Replacement</h2>
+      <div>
+        <h2>Book Battery Replacement</h2>
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Car_Battery_%28top%29.jpg/640px-Car_Battery_%28top%29.jpg" class="service-img" alt="Battery Replacement">
-        <p>Reliable car battery replacement with top-brand batteries.</p>
-        <button onclick="selectService('battery')">Book Now</button>
+        <p><i class="fas fa-battery-full"></i> Reliable car battery replacement with top-brand batteries.</p>
+        <button onclick="bookService('battery')">Book Now</button>
       </div>
-      <div class="booking-box">
-        <h2>Wheel Alignment</h2>
+      <div>
+        <h2>Book Wheel Alignment</h2>
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Wheel_alignment.jpg/640px-Wheel_alignment.jpg" class="service-img" alt="Wheel Alignment">
-        <p>Improve your vehicle's handling with precision alignment.</p>
-        <button onclick="selectService('alignment')">Book Now</button>
+        <p><i class="fas fa-ruler-horizontal"></i> Improve your vehicle's handling with precision alignment.</p>
+        <button onclick="bookService('alignment')">Book Now</button>
       </div>
     </div>
 
@@ -209,15 +193,26 @@
       document.body.classList.toggle("light-mode");
     }
 
-    function selectService(serviceId) {
-      document.getElementById("service")?.remove(); // not needed anymore
-      generateReceiptFromService(serviceId);
+    function bookService(service) {
+      document.getElementById("output").innerHTML = '';
+      document.getElementById("math").innerHTML = '';
+      document.getElementById("hours").value = 3;
+
+      const services = {
+        brake: "Brake Pad Replacement",
+        oil: "Oil Change",
+        tires: "Tire Rotation",
+        battery: "Battery Replacement",
+        alignment: "Wheel Alignment"
+      };
+
+      alert(`Thank you for booking ${services[service]}! Now generating a receipt.`);
+      document.getElementById("service").value = service;
+      generateReceipt(service);
     }
 
-    function generateReceiptFromService(service) {
-      document.getElementById("output").innerHTML = "";
-      document.getElementById("math").innerHTML = "";
-
+    function generateReceipt(service) {
+      service = service || document.getElementById("service")?.value || "brake";
       const hours = parseInt(document.getElementById("hours").value);
       const budget = parseInt(document.getElementById("budget").value);
 
